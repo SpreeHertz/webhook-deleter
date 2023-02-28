@@ -6,3 +6,7 @@ A simple web application that can delete Discord webhooks.
 
 - Vue 3 + Vite
 - Vanilla CSS
+
+## To do
+
+- Error handling
