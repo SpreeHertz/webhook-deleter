@@ -1,16 +1,53 @@
-
 <template>
    <div class="first">
         <h1 class="webhook-deleter">discord webhook deleter</h1>
     </div>
         <label for="webhook-url" class="webhook-url-label">enter webhook url</label>
         <div class="webhook-input">
-            <input type="text" v-model="text" class="webhook-url-input-box" id="webhook-url" placeholder="discord.com/api/webhooks/...">
+			<input type="text"  @input="handleInput" v-model="webhookurl" class="webhook-url-input-box" id="webhook-url" placeholder="discord.com/api/webhooks/...">
         </div>
+		
        <div class="delete">
-        <button class="delete-btn" id="delete-btn">Delete</button>
+        <button @click="deletebtn" class="delete-btn" id="delete-btn">Delete</button>
        </div>
+	   <div class="success-container hidden" role="alert">
+  	<svg aria-hidden="true" class="success-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+  <div>
+    <span class="font-medium">Success!</span> The webhook has been successfully deleted.
+  </div>
+</div>
 </template>
+
+<script>
+export default {
+	name: "App",
+	data() {
+		return {
+			webhookurl: ''
+		}
+	},
+	methods: {
+		handleInput(event) {
+			const url = event.target.value;
+			console.log(url);
+			if (url.startsWith === 'discord.com/api/webhooks') {
+				return fetch(url, {
+					method: 'DELETE',
+					body: url,
+				}).then(() => {
+					if (response === 200) {
+					console.log('success')
+					}
+				})
+			}
+		
+			
+		}
+	},
+
+}
+
+</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
@@ -93,5 +130,28 @@ body {
 	box-sizing: border-box;
 	cursor: pointer;
 }
+.success-container {
+	display: flex;
+	padding: 1rem;
+	color: #166534;
+	border-radius: 0.5rem;
+	background-color: #bbf7d0;
+	width: 25%;
+}
 
+.success-svg {
+	display: inline;
+	flex-shrink: 0;
+	width: 1.25rem;
+	height: 0.75rem;
+	margin-right: 0.75rem;
+}
+
+.font-medium {
+	font-weight: 700;
+}
+
+.hidden {
+	display: none;
+}
 </style>
