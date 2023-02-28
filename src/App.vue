@@ -1,4 +1,10 @@
 <template>
+	<div class="success-container hidden" role="alert">
+  	<svg aria-hidden="true" class="success-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+  <div>
+    <span class="font-medium">Success!</span> The webhook has been successfully deleted.
+  </div>
+</div>
    <div class="first">
         <h1 class="webhook-deleter">discord webhook deleter</h1>
     </div>
@@ -10,12 +16,6 @@
        <div class="delete">
         <button @click="deleteWebhook" class="delete-btn" id="delete-btn">Delete</button>
        </div>
-	   <div class="success-container hidden" role="alert">
-  	<svg aria-hidden="true" class="success-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-  <div>
-    <span class="font-medium">Success!</span> The webhook has been successfully deleted.
-  </div>
-</div>
 </template>
 
 <script>
@@ -42,7 +42,9 @@ export default {
   showSuccessMessage() {
     // show the success message by removing the "hidden" class from the success container
     const successContainer = document.querySelector('.success-container');
-    successContainer.classList.remove('hidden');
+		successContainer.classList.remove('hidden');
+	
+	
   },
   handleInput(event) {
     // update the webhookurl data property with the input value
