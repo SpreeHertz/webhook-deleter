@@ -16,6 +16,10 @@
        <div class="delete">
         <button @click="deleteWebhook" class="delete-btn" id="delete-btn">Delete</button>
        </div>
+	   <div class="footer">
+		<a href="https://github.com/spreehertz/webhook-deleter">source (github)</a>
+		<p class="madewith-text">made with ♥ by <u><span class="font-medium">SpreeHertz</span></u>.</p>
+	   </div>
 </template>
 
 <script>
@@ -161,4 +165,18 @@ body {
 .hidden {
 	display: none;
 }
+
+.footer a:link {
+	text-align: center;
+	padding-top: 20rem;
+	display: grid;
+	align-content: end;
+	color: #292929;
+}
+
+.madewith-text {
+	text-align: center;
+	color: #353535;
+}
+
 </style>
