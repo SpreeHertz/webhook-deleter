@@ -1,10 +1,23 @@
 <template>
 	<div class="success-container hidden" role="alert">
-  	<svg aria-hidden="true" class="success-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+		<svg aria-hidden="true" class="success-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
   <div>
     <span class="font-medium">Success!</span> The webhook has been successfully deleted.
+	<a href="#" @click="closeSuccessMessage"><svg class="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+</svg></a>
   </div>
 </div>
+<div class="error-container hidden" role="alert">
+		<svg aria-hidden="true" class="success-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+  <div>
+    <span class="font-medium">Error!</span> {{  error }}
+	<a href="#" @click="closeErrorMessage"><svg class="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+</svg></a>
+  </div>
+</div>
+
    <div class="first">
         <h1 class="webhook-deleter">discord webhook deleter</h1>
     </div>
@@ -29,9 +42,11 @@ export default {
 	name: "App",
 	data() {
 		return {
-			webhookurl: ''
+			webhookurl: '',
+			error: 'hii'
 		}
 	},
+
 	methods: {
   deleteWebhook() {
     axios.delete(this.webhookurl)
@@ -41,19 +56,40 @@ export default {
       })
       .catch((error) => {
         console.error(error);
+		this.error = error.message;
+
       });
   },
   showSuccessMessage() {
     // show the success message by removing the "hidden" class from the success container
     const successContainer = document.querySelector('.success-container');
-		successContainer.classList.remove('hidden');
-	
-	
+	successContainer.classList.remove('hidden');
   },
   handleInput(event) {
     // update the webhookurl data property with the input value
     this.webhookurl = event.target.value;
-  }
+  },
+  showErrorMessage() {
+    // show the success message by removing the "hidden" class from the success container
+    const errContainer = document.querySelector('.error-container');
+	errContainer.classList.remove('hidden');
+	
+  },
+  closeSuccessMessage(event) {
+	const clickedElement = event.target;
+	if (clickedElement){
+		const successContainer = document.querySelector('.success-container');
+		successContainer.classList.add('hidden');
+	}
+  },
+  closeErrorMessage(event) {
+	const clickedElement = event.target;
+	if (clickedElement){
+		const successContainer = document.querySelector('.error-container');
+		successContainer.classList.add('hidden');
+	}
+  },
+  
 }
 
 }
@@ -141,12 +177,32 @@ body {
 	box-sizing: border-box;
 	cursor: pointer;
 }
+
+.delete-btn:hover {
+	background: rgb(210, 58, 61);
+}
+
 .success-container {
 	display: flex;
+	position: absolute;
+	right: 0;
+	margin: 0;
 	padding: 1rem;
 	color: #166534;
 	border-radius: 0.5rem;
 	background-color: #bbf7d0;
+	width: 25%;
+}
+
+.error-container {
+	display: flex;
+	position: absolute;
+	right: 0;
+	margin: 0;
+	padding: 1rem;
+	color: #ffffff;
+	border-radius: 0.5rem;
+	background-color: #f73b35;
 	width: 25%;
 }
 
@@ -167,16 +223,25 @@ body {
 }
 
 .footer a:link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding-top: 1rem;
 	text-align: center;
-	padding-top: 20rem;
-	display: grid;
-	align-content: end;
-	color: #292929;
+	color: #353535;
 }
 
 .madewith-text {
 	text-align: center;
 	color: #353535;
+}
+.close-icon {
+	width: 1.5rem; 
+	height: 1.5rem; 
+	position: absolute;
+	right: 0;
+	padding-bottom: 6rem;
 }
 
 </style>
