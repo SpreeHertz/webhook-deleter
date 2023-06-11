@@ -3,7 +3,7 @@
 		<svg aria-hidden="true" class="success-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
   <div>
     <span class="font-medium">Success!</span> The webhook has been successfully deleted.
-	<a href="#" @click="closeSuccessMessage"><svg class="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray">
+	<a @click="closeSuccessMessage"><svg class="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 </svg></a>
   </div>
@@ -11,27 +11,29 @@
 <div class="error-container hidden" role="alert">
 		<svg aria-hidden="true" class="success-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
   <div>
-    <span class="font-medium">Error!</span> {{  error }}
-	<a href="#" @click="closeErrorMessage"><svg class="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray">
+    <span class="font-medium">Error</span> {{  error }}
+	<a @click="closeErrorMessage"><svg class="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 </svg></a>
   </div>
 </div>
 
-   <div class="first">
+   <div class="content">
         <h1 class="webhook-deleter">discord webhook deleter</h1>
     </div>
-        <label for="webhook-url" class="webhook-url-label">enter webhook url</label>
+        <label for="webhook-url" class="webhook-url-label">enter webhook url:</label>
         <div class="webhook-input">
 			<input type="text"  @input="handleInput" v-model="webhookurl" class="webhook-url-input-box" id="webhook-url" placeholder="discord.com/api/webhooks/...">
         </div>
-		
        <div class="delete">
         <button @click="deleteWebhook" class="delete-btn" id="delete-btn">Delete</button>
        </div>
+	
 	   <div class="footer">
-		<a href="https://github.com/spreehertz/webhook-deleter">source (github)</a>
-		<p class="madewith-text">made with ♥ by <u><span class="font-medium">SpreeHertz</span></u>.</p>
+		<p class="madewith-text">made with ♥ by spreehertz.</p>
+		<a href="https://github.com/spreehertz/webhook-deleter">
+			<img src="./assets/gh.svg" alt="github logo" style="height: 1.5rem; width: 1.5rem;">
+		</a>
 	   </div>
 </template>
 
@@ -43,7 +45,7 @@ export default {
 	data() {
 		return {
 			webhookurl: '',
-			error: 'hii'
+			error: null,
 		}
 	},
 
@@ -57,7 +59,7 @@ export default {
       .catch((error) => {
         console.error(error);
 		this.error = error.message;
-
+		this.showErrorMessage();
       });
   },
   showSuccessMessage() {
@@ -104,11 +106,21 @@ export default {
 }
 
 body {
-	background: linear-gradient(to right, rgb(59, 130, 246), rgb(37, 99, 235));
+	background: linear-gradient(to right, rgb(249, 168, 212), rgb(216, 180, 254), rgb(129, 140, 248));
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
 	height: 100vh;
 }
+
+/* .purpose {
+	display: flex;
+	justify-content: center;
+	place-content: center;
+	max-width: 50%;
+	padding-left: 31rem;
+	
+}
+*/
 
 @keyframes gradient {
 	0% {
@@ -121,7 +133,6 @@ body {
 		background-position: 0% 50%;
 	}
 }
-
 
 .webhook-deleter {
     font-family: 'Inter', sans-serif;
@@ -202,8 +213,9 @@ body {
 	padding: 1rem;
 	color: #ffffff;
 	border-radius: 0.5rem;
-	background-color: #f73b35;
-	width: 25%;
+	background-color: #e13732;
+	width: 20%;
+
 }
 
 .success-svg {
@@ -222,26 +234,29 @@ body {
 	display: none;
 }
 
+.footer {
+	padding-top: 20rem;
+}
+
 .footer a:link {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	padding-top: 1rem;
 	text-align: center;
-	color: #353535;
+	color: #202020;
+	text-decoration: none;
 }
 
 .madewith-text {
 	text-align: center;
-	color: #353535;
+	color: #202020;
 }
 .close-icon {
 	width: 1.5rem; 
 	height: 1.5rem; 
 	position: absolute;
 	right: 0;
-	padding-bottom: 6rem;
+	
 }
-
 </style>
