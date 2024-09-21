@@ -1,262 +1,237 @@
 <template>
-	<div class="success-container hidden" role="alert">
-		<svg aria-hidden="true" class="success-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-  <div>
-    <span class="font-medium">Success!</span> The webhook has been successfully deleted.
-	<a @click="closeSuccessMessage"><svg class="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-</svg></a>
-  </div>
-</div>
-<div class="error-container hidden" role="alert">
-		<svg aria-hidden="true" class="success-svg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-  <div>
-    <span class="font-medium">Error</span> {{  error }}
-	<a @click="closeErrorMessage"><svg class="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="gray">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-</svg></a>
-  </div>
-</div>
+	<div class="webhook-deleter">
+		<div class="card">
+			<h1 class="title">Discord Webhook Deleter</h1>
 
-   <div class="content">
-        <h1 class="webhook-deleter">discord webhook deleter</h1>
-    </div>
-        <label for="webhook-url" class="webhook-url-label">enter webhook url:</label>
-        <div class="webhook-input">
-			<input type="text"  @input="handleInput" v-model="webhookurl" class="webhook-url-input-box" id="webhook-url" placeholder="discord.com/api/webhooks/...">
-        </div>
-       <div class="delete">
-        <button @click="deleteWebhook" class="delete-btn" id="delete-btn">Delete</button>
-       </div>
-	
-	   <div class="footer">
-		<p class="madewith-text">made with ♥ by spreehertz.</p>
-		<a href="https://github.com/spreehertz/webhook-deleter">
-			<img src="./assets/gh.svg" alt="github logo" style="height: 1.5rem; width: 1.5rem;">
-		</a>
-	   </div>
+			<div class="input-group">
+				<label for="webhook-url">Enter Webhook URL:</label>
+				<input
+					id="webhook-url"
+					v-model="webhookUrl"
+					type="text"
+					placeholder="discord.com/api/webhooks/..."
+				>
+			</div>
+
+			<button @click="deleteWebhook" class="delete-btn" :disabled="isDeleting">
+				<Trash2Icon v-if="!isDeleting" class="icon" />
+				<LoaderIcon v-else class="icon animate-spin" />
+				{{ isDeleting ? 'Deleting...' : 'Delete Webhook' }}
+			</button>
+
+			<TransitionGroup name="fade">
+				<div v-if="status === 'success'" key="success" class="alert success" role="alert">
+					<CheckCircleIcon class="icon" />
+					<div>
+						<strong>Success!</strong> The webhook has been successfully deleted.
+					</div>
+					<button @click="resetStatus" class="close-btn" aria-label="Close">
+						<XIcon class="icon" />
+					</button>
+				</div>
+
+				<div v-if="status === 'error'" key="error" class="alert error" role="alert">
+					<AlertCircleIcon class="icon" />
+					<div>
+						<strong>Error:</strong> {{ errorMessage }}
+					</div>
+					<button @click="resetStatus" class="close-btn" aria-label="Close">
+						<XIcon class="icon" />
+					</button>
+				</div>
+			</TransitionGroup>
+
+			<footer class="footer">
+				<p>Made with ❤️ by spreehertz</p>
+				<a href="https://github.com/spreehertz/webhook-deleter" target="_blank" rel="noopener noreferrer">
+					<GithubIcon class="icon" />
+				</a>
+			</footer>
+		</div>
+	</div>
 </template>
 
-<script>
-import axios from 'axios';
+<script setup>
+import { ref } from 'vue'
+import { Trash2Icon, LoaderIcon, CheckCircleIcon, AlertCircleIcon, XIcon, HeartIcon, GithubIcon } from 'lucide-vue-next'
 
-export default {
-	name: "App",
-	data() {
-		return {
-			webhookurl: '',
-			error: null,
-		}
-	},
+const webhookUrl = ref('')
+const status = ref('idle')
+const errorMessage = ref('')
+const isDeleting = ref(false)
 
-	methods: {
-  deleteWebhook() {
-    axios.delete(this.webhookurl)
-      .then(() => {
-        // show success message
-        this.showSuccessMessage();
-      })
-      .catch((error) => {
-        console.error(error);
-		this.error = error.message;
-		this.showErrorMessage();
-      });
-  },
-  showSuccessMessage() {
-    // show the success message by removing the "hidden" class from the success container
-    const successContainer = document.querySelector('.success-container');
-	successContainer.classList.remove('hidden');
-  },
-  handleInput(event) {
-    // update the webhookurl data property with the input value
-    this.webhookurl = event.target.value;
-  },
-  showErrorMessage() {
-    // show the success message by removing the "hidden" class from the success container
-    const errContainer = document.querySelector('.error-container');
-	errContainer.classList.remove('hidden');
-	
-  },
-  closeSuccessMessage(event) {
-	const clickedElement = event.target;
-	if (clickedElement){
-		const successContainer = document.querySelector('.success-container');
-		successContainer.classList.add('hidden');
+const deleteWebhook = async () => {
+	if (!webhookUrl.value) {
+		status.value = 'error'
+		errorMessage.value = 'Please enter a webhook URL'
+		return
 	}
-  },
-  closeErrorMessage(event) {
-	const clickedElement = event.target;
-	if (clickedElement){
-		const successContainer = document.querySelector('.error-container');
-		successContainer.classList.add('hidden');
+
+	isDeleting.value = true
+	try {
+		const response = await fetch(webhookUrl.value, { method: 'DELETE' })
+		if (!response.ok) throw new Error('Failed to delete webhook')
+		status.value = 'success'
+		webhookUrl.value = ''
+	} catch (error) {
+		status.value = 'error'
+		errorMessage.value = error instanceof Error ? error.message : 'An unknown error occurred'
+	} finally {
+		isDeleting.value = false
 	}
-  },
-  
 }
 
+const resetStatus = () => {
+	status.value = 'idle'
+	errorMessage.value = ''
 }
-
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-
-* {
-    font-family: 'Inter';
-}
-
-body {
-	background: linear-gradient(to right, rgb(249, 168, 212), rgb(216, 180, 254), rgb(129, 140, 248));
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-	height: 100vh;
-}
-
-/* .purpose {
-	display: flex;
-	justify-content: center;
-	place-content: center;
-	max-width: 50%;
-	padding-left: 31rem;
-	
-}
-*/
-
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 .webhook-deleter {
-    font-family: 'Inter', sans-serif;
-    text-align: center;
-    padding-top: 10em;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: linear-gradient(135deg, #f9a8d4, #d8b4fe, #818cf8);
+	font-family: 'Inter', sans-serif;
+	overflow-y: hidden;
 }
 
-.webhook-url-label {
+.card {
+	background: white;
+	border-radius: 1rem;
+	padding: 2rem;
+	width: 100%;
+	max-width: 400px;
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.title {
+	font-size: 1.5rem;
+	font-weight: 700;
+	text-align: center;
+	margin-bottom: 1.5rem;
+	color: #4b5563;
+}
+
+.input-group {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+
+label {
 	display: block;
-    align-items: center;
-	text-align: center;
+	margin-bottom: 0.5rem;
+	font-weight: 600;
+	color: #4b5563;
 }
 
-/* parent div */
-.webhook-input {
-	display: grid;
-	align-items: center;
-	place-content: center;
-	place-items: center;
-	margin: 0 auto;
-	margin-top: 8px;
-	
+input,
+.delete-btn {
+	width: 100%;
+	padding: 0.75rem;
+	box-sizing: border-box;
 }
 
-.webhook-url-input-box {
-	display: grid;
-	padding: 10px;
-	margin-top: 4px;
-	width: 200%;
-	text-align: center;
-	align-items: center;
-	border-radius: 0.5rem; /* 8px */
-	background: rgb(116, 164, 246);
-	border: 1px solid transparent;
-}
 
-.delete {
-	display: grid;
-	place-items: center;
-	margin-top: 24px;
+
+input:focus {
+	outline: none;
+	border-color: #818cf8;
+	box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
 }
 
 .delete-btn {
-	padding: 10px;
-	padding-left: 15px;
-	padding-right: 15px;
-	background: rgb(237, 66, 69);
-	border: 1px solid transparent;
+	background-color: #ef4444;
 	color: white;
-	font-family: 'Inter', sans-serif;
+	border: none;
+	border-radius: 0.5rem;
+	font-size: 1rem;
 	font-weight: 600;
-	border-radius: 0.5rem;
-	box-sizing: border-box;
 	cursor: pointer;
-}
-
-.delete-btn:hover {
-	background: rgb(210, 58, 61);
-}
-
-.success-container {
-	display: flex;
-	position: absolute;
-	right: 0;
-	margin: 0;
-	padding: 1rem;
-	color: #166534;
-	border-radius: 0.5rem;
-	background-color: #bbf7d0;
-	width: 25%;
-}
-
-.error-container {
-	display: flex;
-	position: absolute;
-	right: 0;
-	margin: 0;
-	padding: 1rem;
-	color: #ffffff;
-	border-radius: 0.5rem;
-	background-color: #e13732;
-	width: 20%;
-
-}
-
-.success-svg {
-	display: inline;
-	flex-shrink: 0;
-	width: 1.25rem;
-	height: 0.75rem;
-	margin-right: 0.75rem;
-}
-
-.font-medium {
-	font-weight: 700;
-}
-
-.hidden {
-	display: none;
-}
-
-.footer {
-	padding-top: 20rem;
-}
-
-.footer a:link {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-direction: column;
-	text-align: center;
-	color: #202020;
-	text-decoration: none;
+	transition: background-color 0.2s;
 }
 
-.madewith-text {
-	text-align: center;
-	color: #202020;
+.delete-btn:hover:not(:disabled) {
+	background-color: #dc2626;
 }
-.close-icon {
-	width: 1.5rem; 
-	height: 1.5rem; 
-	position: absolute;
-	right: 0;
-	
+
+.delete-btn:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.alert {
+	margin-top: 1rem;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	display: flex;
+	align-items: flex-start;
+}
+
+.success {
+	background-color: #d1fae5;
+	color: #065f46;
+}
+
+.error {
+	background-color: #fee2e2;
+	color: #991b1b;
+}
+
+.close-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	color: currentColor;
+	margin-left: auto;
+}
+
+.footer {
+	margin-top: 2rem;
+	text-align: center;
+	font-size: 0.875rem;
+	color: #6b7280;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.footer a {
+	color: #6b7280;
+	margin-left: 0.5rem;
+}
+
+.icon {
+	width: 1.25rem;
+	height: 1.25rem;
+	margin-right: 0.5rem;
+}
+
+@media (max-width: 640px) {
+	.card {
+		padding: 1.5rem;
+	}
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.animate-spin {
+	animation: spin 1s linear infinite;
 }
 </style>
