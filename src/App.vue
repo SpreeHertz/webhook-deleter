@@ -20,7 +20,6 @@
 
    <div class="content">
         <h1 class="webhook-deleter">discord webhook deleter</h1>
-    </div>
         <label for="webhook-url" class="webhook-url-label">enter webhook url:</label>
         <div class="webhook-input">
 			<input type="text"  @input="handleInput" v-model="webhookurl" class="webhook-url-input-box" id="webhook-url" placeholder="discord.com/api/webhooks/...">
@@ -28,9 +27,9 @@
        <div class="delete">
         <button @click="deleteWebhook" class="delete-btn" id="delete-btn">Delete</button>
        </div>
-	
+	</div>
 	   <div class="footer">
-		<p class="madewith-text">made with ♥ by spreehertz.</p>
+		<p class="madewith-text">made with ♥ by spreehertz (needs css fixes).</p>
 		<a href="https://github.com/spreehertz/webhook-deleter">
 			<img src="./assets/gh.svg" alt="github logo" style="height: 1.5rem; width: 1.5rem;">
 		</a>
@@ -122,6 +121,16 @@ body {
 }
 */
 
+.content {
+	padding-top: 5em;
+	background-color: #d4c1c1;
+	margin-top: 5em;
+	margin-left: 30%;
+	margin-right: 30%;
+	margin-bottom: 5em;
+	border-radius: 1em;
+}
+
 @keyframes gradient {
 	0% {
 		background-position: 0% 50%;
@@ -137,7 +146,6 @@ body {
 .webhook-deleter {
     font-family: 'Inter', sans-serif;
     text-align: center;
-    padding-top: 10em;
 }
 
 .webhook-url-label {
@@ -165,7 +173,7 @@ body {
 	text-align: center;
 	align-items: center;
 	border-radius: 0.5rem; /* 8px */
-	background: rgb(116, 164, 246);
+	background: #b5a4a4;
 	border: 1px solid transparent;
 }
 
@@ -173,6 +181,7 @@ body {
 	display: grid;
 	place-items: center;
 	margin-top: 24px;
+	padding-bottom: 1em;
 }
 
 .delete-btn {
