@@ -315,10 +315,10 @@ fsevents@~2.3.2:
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
-lucide-vue-next@^0.462.0:
-  version "0.462.0"
-  resolved "https://registry.yarnpkg.com/lucide-vue-next/-/lucide-vue-next-0.462.0.tgz#5257222231bd2a6e26725af18ab68e798c733bc8"
-  integrity sha512-3H+GzhWA+qAW29EpJr/vCtPJK209zejoqsy6pCWSC6niPnywQeOA/yxl/WPQ38ODo3h7r0iGjpMKl8g/LS3+JA==
+lucide-vue-next@^0.464.0:
+  version "0.464.0"
+  resolved "https://registry.yarnpkg.com/lucide-vue-next/-/lucide-vue-next-0.464.0.tgz#5e085a73a8ff95753dca1ca9e0fe0fd8e089c09a"
+  integrity sha512-8chMNSm3FxJort5FEuGyolucYe/kcanNU5QFSaZdMhZlpszGQwYE6trMd54+1QkiYLk4OKQclUtxqaDPCcVD3w==
 
 magic-string@^0.30.11:
   version "0.30.14"
