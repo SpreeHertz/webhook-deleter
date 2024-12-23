@@ -321,9 +321,9 @@ lucide-vue-next@^0.469.0:
   integrity sha512-EjOap+vY3xEzCMrnaccDHO4BH3k3Lr+sOyvzRQCaayYxkxKla0w6Jr4h3cHAzA4vMSp63Dcy7vDiGeCPcCY+Gg==
 
 magic-string@^0.30.11:
-  version "0.30.15"
-  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.30.15.tgz#d5474a2c4c5f35f041349edaba8a5cb02733ed3c"
-  integrity sha512-zXeaYRgZ6ldS1RJJUrMrYgNJ4fdwnyI6tVqoiIhyCyv5IVTK9BU8Ic2l253GGETQHxI4HNUwhJ3fjDhKqEoaAw==
+  version "0.30.17"
+  resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.30.17.tgz#450a449673d2460e5bbcfba9a61916a1714c7453"
+  integrity sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==
   dependencies:
     "@jridgewell/sourcemap-codec" "^1.5.0"
 
