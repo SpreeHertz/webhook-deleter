@@ -68,7 +68,13 @@ const deleteWebhook = async () => {
 		errorMessage.value = 'Please enter a webhook URL'
 		return
 	}
-
+	const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
+	const regex = new RegExp(expression);
+	if (!webhookUrl.value.match(regex)) {
+		status.value = 'error'
+		errorMessage.value = 'Please enter a valid webhook URL.'
+		return
+	}
 	isDeleting.value = true
 	try {
 		const response = await fetch(webhookUrl.value, { method: 'DELETE' })
@@ -245,5 +251,9 @@ input:focus {
 
 .animate-spin {
 	animation: spin 1s linear infinite;
+}
+
+#webhook-url {
+	font-family: 'Inter', sans-serif;
 }
 </style>
