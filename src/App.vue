@@ -65,7 +65,7 @@ const isDeleting = ref(false)
 const deleteWebhook = async () => {
 	if (!webhookUrl.value) {
 		status.value = 'error'
-		errorMessage.value = 'Please enter a webhook URL'
+		errorMessage.value = 'Please enter a webhook URL.'
 		return
 	}
 	const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
@@ -77,8 +77,11 @@ const deleteWebhook = async () => {
 	}
 	isDeleting.value = true
 	try {
-		const response = await fetch(webhookUrl.value, { method: 'DELETE' })
-		if (!response.ok) throw new Error('Failed to delete webhook')
+		const response = await fetch(webhookUrl.value, { method: 'DELETE'})
+		console.log(response)
+		if (response.status == 404) throw new Error("This webhook does not exist (maybe you've already deleted it).")
+		if (!response.ok) throw new Error(`Failed to delete webhook.`)
+		
 		status.value = 'success'
 		webhookUrl.value = ''
 	} catch (error) {
