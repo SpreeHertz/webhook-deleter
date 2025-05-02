@@ -1,6 +1,6 @@
 # webhook-deleter
 
-A simple Vue-based web application that simplifies the process of deleting Discord webhooks.
+A simple Vue-based web application that deletes Discord webhooks in an instant, anonymously.
 
 ## Purpose
 
