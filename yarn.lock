@@ -541,10 +541,10 @@ hasown@^2.0.2:
   dependencies:
     function-bind "^1.1.2"
 
-lucide-vue-next@^0.503.0:
-  version "0.503.0"
-  resolved "https://registry.yarnpkg.com/lucide-vue-next/-/lucide-vue-next-0.503.0.tgz#a66bd31fdf84d4ddc590d8a5cb518b5a7da849ec"
-  integrity sha512-3MrtHIBdh4dPCUZDLxQnvmQ17UzUnBYgezUSIo87Laais8hOz6qIPllp0iG/uS/UIzk7bJxyZRzoZTW/gLSr4A==
+lucide-vue-next@^0.506.0:
+  version "0.506.0"
+  resolved "https://registry.yarnpkg.com/lucide-vue-next/-/lucide-vue-next-0.506.0.tgz#de3663c6b54229b4e3d73b571070d99c26d454ee"
+  integrity sha512-+zCt7CaH3Os4q5yUdVGCQMe9vUAddslGC+PnoYT2UXnCMMkvrxtL1b63812l6zQzy5W8CxPmsMgVfMBaJiK7qA==
 
 magic-string@^0.30.11:
   version "0.30.17"
