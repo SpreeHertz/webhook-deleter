@@ -72,7 +72,7 @@ const deleteWebhook = async () => {
 	const regex = new RegExp(expression);
 	if (!webhookUrl.value.match(regex)) {
 		status.value = 'error'
-		errorMessage.value = 'This is not a Discord webhook URL. Note: The webhook token is required.'
+		errorMessage.value = 'Not a valid Discord webhook URL. Note: The webhook token is required.'
 		return
 	}
 	isDeleting.value = true
@@ -91,7 +91,6 @@ const deleteWebhook = async () => {
 		isDeleting.value = false
 	}
 }
-// test commit
 const resetStatus = () => {
 	status.value = 'idle'
 	errorMessage.value = ''
@@ -109,6 +108,20 @@ const resetStatus = () => {
 	background: linear-gradient(135deg, #f9a8d4, #d8b4fe, #818cf8);
 	font-family: 'Inter', sans-serif;
 	overflow-y: hidden;
+	background-size: 400% 400%; 
+    animation: gradientShift 30s ease infinite alternate-reverse;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .card {
@@ -117,7 +130,7 @@ const resetStatus = () => {
 	padding: 2rem;
 	width: 100%;
 	max-width: 400px;
-	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+	box-shadow: 15px 10px 10px 10px rgba(0, 0, 0, 0.1), 10px 10px 10px 10px rgba(0, 0, 0, 0.05);
 }
 
 .title {
@@ -175,7 +188,7 @@ input:focus {
 }
 
 .delete-btn:hover:not(:disabled) {
-	background-color: #dc2626;
+	background-color: #b13d3d;
 }
 
 .delete-btn:disabled {
