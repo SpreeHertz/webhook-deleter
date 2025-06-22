@@ -1,11 +1,19 @@
-# webhook-deleter
+# Discord Webhook Deleter
 
-A simple Vue-based web application that deletes Discord webhooks in an instant, anonymously.
+A simple web tool to quickly delete Discord webhooks using their URLs.
 
-## Purpose
+## Features
+- Delete webhooks instantly with just the URL
+- No data stored or logged
+- Clean, minimal interface
 
-- You can prevent unknown @everyone webhook spams
-- Most scams on discord get your information by sending some form of malicious media to the victim, grabbing the information from the webpage, and finally sending the victim's data via a webhook. You can obtain that webhook URL by going on your Developer Tools (record the Network requests), copy the webhook URL and you can delete it from here.
+## Usage
+1. Paste the webhook URL
+2. Click delete
+3. Done
 
-For any user that inspects the audit logs of the guild (server) that the webhook belongs to, it will look like this:
-![image](https://github.com/user-attachments/assets/041ab250-cb91-4430-8f8c-83725ffec54a)
+## Built with
+- Vue 3 + Vite
+
+## Demo
+https://webhook-deleter.netlify.app
