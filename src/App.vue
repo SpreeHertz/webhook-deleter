@@ -68,7 +68,7 @@ const deleteWebhook = async () => {
 		errorMessage.value = 'Please enter a webhook URL.'
 		return
 	}
-	const expression = "^https://discord\.com/api/.*"
+	const expression = "^https://([a-z0-9-]+\.)?discord\.com/api/.*"
 	const regex = new RegExp(expression);
 	if (!webhookUrl.value.match(regex)) {
 		status.value = 'error'
