@@ -23,7 +23,7 @@
 				<div v-if="status === 'success'" key="success" class="alert success" role="alert">
 					<CheckCircleIcon class="icon" />
 					<div>
-						<strong>Success!</strong> The webhook has been successfully deleted.
+						<strong>Success!</strong> {{ successMessage }}
 					</div>
 					<button @click="resetStatus" class="close-btn" aria-label="Close">
 						<XIcon class="icon" />
@@ -46,7 +46,7 @@
 				</p>
 				<p class="contributor">Contributor:<a class="contributor_link" href="https://github.com/feeeedox">Florian</a></p>
 				<a href="https://github.com/spreehertz/webhook-deleter" target="_blank" rel="noopener noreferrer">
-					<GithubIcon class="icon" />
+					<GithubIcon class="gh_icon" />
 				</a>
 			</footer>
 		</div>
@@ -55,13 +55,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import { Trash2Icon, LoaderIcon, CheckCircleIcon, AlertCircleIcon, XIcon, HeartIcon, GithubIcon } from 'lucide-vue-next'
+import { Trash2Icon, LoaderIcon, CheckCircleIcon, AlertCircleIcon, XIcon, GithubIcon } from 'lucide-vue-next'
 
 const webhookUrl = ref('')
 const status = ref('idle')
 const errorMessage = ref('')
 const isDeleting = ref(false)
-
+const successMessage = ref('')
 const deleteWebhook = async () => {
 	if (!webhookUrl.value) {
 		status.value = 'error'
@@ -77,12 +77,17 @@ const deleteWebhook = async () => {
 	}
 	isDeleting.value = true
 	try {
+		const infoResponse = await fetch(webhookUrl.value)
+		const webhookData = await infoResponse.json()
+        const webhookName = webhookData.name
+		console.log("logged info before webhook was deleted:", infoResponse)
+		if (infoResponse.status == 404) throw new Error("This webhook does not exist (maybe you've already deleted it).")
 		const response = await fetch(webhookUrl.value, { method: 'DELETE'})
-		console.log(response)
-		if (response.status == 404) throw new Error("This webhook does not exist (maybe you've already deleted it).")
+		console.log("deleted response:", response)
 		if (!response.ok) throw new Error(`Failed to delete webhook.`)
 		
 		status.value = 'success'
+		successMessage.value = `Webhook "${webhookName}" deleted successfully.`
 		webhookUrl.value = ''
 	} catch (error) {
 		status.value = 'error'
@@ -94,6 +99,7 @@ const deleteWebhook = async () => {
 const resetStatus = () => {
 	status.value = 'idle'
 	errorMessage.value = ''
+	successMessage.value = ''
 }
 </script>
 
@@ -251,6 +257,10 @@ input:focus {
 	width: 1.25rem;
 	height: 1.25rem;
 	margin-right: 0.5rem;
+}
+
+.gh_icon:hover {
+	filter: brightness(0.4);
 }
 
 @media (max-width: 640px) {
