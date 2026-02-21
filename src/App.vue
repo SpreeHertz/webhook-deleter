@@ -44,7 +44,7 @@
 			<footer class="footer">
 				<p>Made with ❤️ by spreehertz
 				</p>
-				<p class="contributor">Contributor:<a class="contributor_link" href="https://github.com/Fedox-die-Ente">Fedox-die-Ente</a></p>
+				<p class="contributor">Contributor:<a class="contributor_link" href="https://github.com/feeeedox">Florian</a></p>
 				<a href="https://github.com/spreehertz/webhook-deleter" target="_blank" rel="noopener noreferrer">
 					<GithubIcon class="icon" />
 				</a>
